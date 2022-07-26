@@ -12,7 +12,7 @@ spec:
       labels:
         app: auth
     spec:
-      container:
+      containers:
         - name: auth
           image: riveramariano/auth
 ---
@@ -23,8 +23,9 @@ metadata:
 spec:
   selector:
     app: auth
+  type: ClusterIP
   ports:
     - name: auth
       protocol: TCP
       port: 3000
-      targetPort: 3000 
+      targetPort: 3000
