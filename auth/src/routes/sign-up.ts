@@ -1,5 +1,7 @@
 import express, { Request, Response } from 'express';
 import { body, validationResult } from 'express-validator'
+import { RequestValidationError } from '../errors/request-validation-error';
+import { DatabaseConnectionError } from '../errors/database-connection-error';
 
 const router = express.Router();
 
@@ -15,14 +17,15 @@ router.post('/api/users/sign-up',
       .withMessage('Password must be between 16 and 40 characters')
   ],
   (req: Request, res: Response) => {
-    // Check the posible validation errors
     const errors = validationResult(req);
+
     if (!errors.isEmpty()) {
-      return res.status(400).send(errors.array());
+      throw new RequestValidationError(errors.array());
     }
 
-    const { email, password } = req.body;
-    console.log('Creating a user..');
+    console.log('Creating a new user...');
+    throw new DatabaseConnectionError();
+
     res.send({});
   }
 );
