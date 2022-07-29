@@ -16,7 +16,7 @@ router.post('/api/users/sign-up',
       .isLength({ min: 16, max: 40 })
       .withMessage('Password must be between 16 and 40 characters')
   ],
-  (req: Request, res: Response) => {
+  async (req: Request, res: Response) => {
     const errors = validationResult(req);
 
     if (!errors.isEmpty()) {
