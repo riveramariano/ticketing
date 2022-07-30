@@ -1,6 +1,7 @@
 import express from 'express';
 import 'express-async-errors';
 import { json } from 'body-parser';
+import mongoose from 'mongoose';
 
 import { currentUserRouter } from './routes/current-user';
 import { signInRouter } from './routes/sign-in';
@@ -25,6 +26,17 @@ app.all('*', async () => {
 // Define the auth micro-service middlewares
 app.use(errorHandler);
 
-app.listen(3000, () => {
-  console.log('Auth service on port 3000!');
-});
+const startUp = async () => {
+  try {
+    await mongoose.connect('mongodb://auth-mongo-srv:27017/auth');
+    console.log('Auth service connected to MongoDB!');
+  } catch (err) {
+    console.log(err);
+  }
+
+  app.listen(3000, () => {
+    console.log('Auth service on port 3000!');
+  });
+};
+
+startUp();
