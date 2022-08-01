@@ -6,7 +6,9 @@ let mongo: any;
 
 /* Creating a new instance of MongoMemoryServer and connecting to it. */
 beforeAll(async () => {
-  const mongo = new MongoMemoryServer();
+  process.env.JWT_KEY = 'MsjkfnaskjRBAJHKSLRBkjaLNRLISn';
+
+  const mongo = await MongoMemoryServer.create();
   const mongoUri = mongo.getUri();
 
   await mongoose.connect(mongoUri, {});
