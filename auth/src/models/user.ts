@@ -27,6 +27,15 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: true
   }
+}, { // Change sign-up user data response
+  toJSON: {
+    transform(_doc, ret) {
+      ret.id = ret._id;
+      delete ret._id;
+      delete ret.password;
+    },
+    versionKey: false
+  }
 });
 
 /* This is a mongoose middleware that is run before the user is saved to the database. It checks if the
