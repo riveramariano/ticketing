@@ -43,7 +43,7 @@ router.post('/api/users/sign-in',
     // Store it on session object
     req.session = { jwt: userJwt };
 
-    res.status(201).send(existingUser);
+    res.status(200).send(existingUser);
   }
 );
 
