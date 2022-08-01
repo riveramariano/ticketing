@@ -41,7 +41,7 @@ router.post('/api/users/sign-in',
     }, process.env.JWT_KEY!);
 
     // Store it on session object
-    req.session = { jtw: userJwt };
+    req.session = { jwt: userJwt };
 
     res.status(201).send(existingUser);
   }
