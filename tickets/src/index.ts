@@ -8,14 +8,14 @@ const startUp = async () => {
   }
 
   try {
-    await mongoose.connect('mongodb://auth-mongo-srv:27017/auth');
-    console.log('Auth service connected to MongoDB!');
+    await mongoose.connect('mongodb://tickets-mongo-srv:27017/tickets');
+    console.log("Tickets service connected to MongoDB!");
   } catch (err) {
     console.log(err);
   }
 
   app.listen(3000, () => {
-    console.log('Auth service on port 3000!');
+    console.log('Tickets service on port 3000!');
   });
 };
 
