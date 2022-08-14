@@ -1,4 +1,4 @@
-import axios from 'axios';
+import buildClient from "../api/build-client"; 
 
 const LandingPage = ({ currentUser }) => {
   console.log(currentUser);
@@ -7,32 +7,11 @@ const LandingPage = ({ currentUser }) => {
 };
 
 // Executed during the SSR process
-LandingPage.getInitialProps = async ({ req }) => {
-  if (typeof window === 'undefined') {
-    /*
-      We're on the server when:
-        - Hard refresh of page
-        - Clicking link from different domain
-        - Typing URL into address bar
-    */
-    const { data } = await axios.get(
-      // http://SERVICENAME.NAMESPACE.svc.cluster.local/ROUTE
-      'http://ingress-nginx-controller.ingress-nginx.svc.cluster.local/api/users/current-user', {
-        headers: req.headers
-      }
-    );
+LandingPage.getInitialProps = async (context) => {
+  const client = buildClient(context);
+  const { data } = await client.get('/api/users/current-user');
 
-    return data;
-  } else {
-    /*
-      We're on the browser when:
-        - Navigating from one page to another while in the app
-          - From sign-up to landing page
-    */
-    const { data } = await axios.get('/api/users/current-user');
-
-    return data;
-  }
+  return data;
 };
 
 export default LandingPage;
