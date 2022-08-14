@@ -1,9 +1,7 @@
 import buildClient from "../api/build-client"; 
 
 const LandingPage = ({ currentUser }) => {
-  console.log(currentUser);
-
-  return <h1>LandingPage</h1>;
+  return currentUser ? <h1>You're signed in</h1> : <h1>You're not signed-in</h1>
 };
 
 // Executed during the SSR process
