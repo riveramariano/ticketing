@@ -3,6 +3,7 @@ import 'express-async-errors';
 import { json } from 'body-parser';
 import cookieSession from 'cookie-session';
 import { errorHandler, NotFoundError } from '@mrtickers/common';
+import { createTicketRouter } from './routes/new';
 
 const app = express();
 
@@ -18,7 +19,7 @@ app.use(
 );
 
 // Define the tickets micro-service routes
-// app.use(currentUserRouter);
+app.use(createTicketRouter);
 // app.use(signInRouter);
 // app.use(signOutRouter);
 // app.use(signUpRouter);
