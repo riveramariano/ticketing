@@ -2,7 +2,7 @@ import express from 'express';
 import 'express-async-errors';
 import { json } from 'body-parser';
 import cookieSession from 'cookie-session';
-import { errorHandler, NotFoundError } from '@mrtickers/common';
+import { errorHandler, NotFoundError, currentUser } from '@mrtickers/common';
 import { createTicketRouter } from './routes/new';
 
 const app = express();
@@ -17,6 +17,9 @@ app.use(
     secure: process.env.NODE_ENV !== 'test', // Require HTTPS
   })
 );
+
+// Checks if the user is auth
+app.use(currentUser);
 
 // Define the tickets micro-service routes
 app.use(createTicketRouter);
