@@ -1,8 +1,14 @@
 import mongoose from 'mongoose';
 import { Password } from '../services/password';
 
-/* A type definition for the attributes that a users has. */
+/* A type definition for the attributes that a user has. */
 interface UserAttributes {
+  email: string;
+  password: string;
+}
+
+/* A type definition for the attributes that a user has. */
+interface UserDoc extends mongoose.Document {
   email: string;
   password: string;
 }
@@ -10,12 +16,6 @@ interface UserAttributes {
 /* Extending the mongoose.Model to add a new method called build. */
 interface UserModel extends mongoose.Model<UserDoc> {
   build(attributes: UserAttributes): UserDoc;
-}
-
-/* A type definition for the attributes that a user has. */
-interface UserDoc extends mongoose.Document {
-  email: string;
-  password: string;
 }
 
 const userSchema = new mongoose.Schema({
