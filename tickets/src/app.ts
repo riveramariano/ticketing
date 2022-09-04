@@ -4,6 +4,7 @@ import { json } from 'body-parser';
 import cookieSession from 'cookie-session';
 import { errorHandler, NotFoundError, currentUser } from '@mrtickers/common';
 import { createTicketRouter } from './routes/new';
+import { showTicketRouter } from './routes/show';
 
 const app = express();
 
@@ -23,7 +24,7 @@ app.use(currentUser);
 
 // Define the tickets micro-service routes
 app.use(createTicketRouter);
-// app.use(signInRouter);
+app.use(showTicketRouter);
 // app.use(signOutRouter);
 // app.use(signUpRouter);
 
