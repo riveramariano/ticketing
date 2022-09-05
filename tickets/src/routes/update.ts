@@ -1,11 +1,11 @@
 import express, { Request, Response } from 'express';
 import { body } from 'express-validator';
-import { validateRequest, requireAuth } from '@mrtickers/common';
+import { validateRequest, requireAuth, NotFoundError, NotAuthorizedError } from '@mrtickers/common';
 import { Ticket } from '../models/ticket';
 
 const router = express.Router();
 
-router.post('/api/tickets',
+router.put('/api/tickets/:id',
   [
     body('title').not().isEmpty().withMessage('Title is required'),
     body('price').isFloat({ gt: 0 }).withMessage('Price must be greater than 0')
@@ -13,17 +13,12 @@ router.post('/api/tickets',
   validateRequest,
   requireAuth,
   async (req: Request, res: Response) => {
-    const { title, price } = req.body;
+    const ticket = await Ticket.findById(req.params.id);
 
-    const ticket = Ticket.build({
-      title,
-      price,
-      userId: req.currentUser!.id
-    });
-    await ticket.save();
+    if (!ticket) { throw new NotFoundError(); }
 
-    res.status(201).send(ticket);
+    res.send(ticket);
   }
 );
 
-export { router as createTicketRouter };
+export { router as updateTicketRouter };
