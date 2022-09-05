@@ -5,7 +5,7 @@ const createTicket = () => {
   return request(app)
     .post('/api/tickets')
     .set('Cookie', global.getCookie())
-    .send({ title: 'Concert', price: '9.99' });
+    .send({ title: 'Concert', price: 20 });
 };
 
 it('can fetch a list of tickets', async () => {
