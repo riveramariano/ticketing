@@ -13,7 +13,7 @@ it('has a route handler listening to /api/tickets for post requests', async () =
 it('can only be accessed if the user is signed in', async () => {
   await request(app)
     .post('/api/tickets')
-    .send({ title: 'Ticket', price: 10 })
+    .send({ title: 'Ticket', price: '10' })
     .expect(401);
 });
 
@@ -30,13 +30,13 @@ it('returns an error if an invalid title is provided', async () => {
   await request(app)
     .post('/api/tickets')
     .set('Cookie', global.getCookie())
-    .send({ title: '', price: 10 })
+    .send({ title: '', price: '10' })
     .expect(400);
 
   await request(app)
     .post('/api/tickets')
     .set('Cookie', global.getCookie())
-    .send({ price: 10 })
+    .send({ price: '10' })
     .expect(400);
 });
 
@@ -61,7 +61,7 @@ it('creates a ticket with valid inputs', async () => {
   await request(app)
     .post('/api/tickets')
     .set('Cookie', global.getCookie())
-    .send({ title: 'Ticket', price: 10 })
+    .send({ title: 'Ticket', price: '10' })
     .expect(201);
 
   tickets = await Ticket.find({});
