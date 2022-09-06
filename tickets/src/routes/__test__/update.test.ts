@@ -61,11 +61,11 @@ it('updates the ticket if provided valid inputs', async () => {
   const response = await request(app)
     .post('/api/tickets')
     .set('Cookie', cookie)
-    .send({ title: 'Concert', price: 20 });
+    .send({ title: 'Concert', price: '20' });
 
   await request(app)
     .put(`/api/tickets/${response.body.id}`)
     .set('Cookie', cookie)
-    .send({ title: 'Shopping', price: 30 })
+    .send({ title: 'Shopping', price: '30' })
     .expect(200);
 });
