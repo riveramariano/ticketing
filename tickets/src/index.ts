@@ -12,6 +12,13 @@ const startUp = async () => {
 
   try {
     await natsWrrapper.connect('ticketing', 'askdjna', 'http://nats-srv:4222');
+    natsWrrapper.client.on('close', () => {
+      console.log('NATS connection closed!');
+      process.exit();
+    });
+    process.on('SIGINT', () => natsWrrapper.client.close());
+    process.on('SIGTERM', () => natsWrrapper.client.close());
+
     await mongoose.connect(process.env.MONGO_URI);
     console.log('Tickets service connected to MongoDB!');
   } catch (err) {
