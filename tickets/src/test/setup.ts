@@ -6,6 +6,8 @@ declare global {
   var getCookie: () => string[];
 }
 
+jest.mock('../nats-wrapper');
+
 let mongo: any;
 
 /* Creating a new instance of MongoMemoryServer and connecting to it. */
@@ -20,6 +22,7 @@ beforeAll(async () => {
 
 /* Deleting all the data in the database before each test. */
 beforeEach(async () => {
+  jest.clearAllMocks();
   const collections = await mongoose.connection.db.collections();
 
   for (let collection of collections) {

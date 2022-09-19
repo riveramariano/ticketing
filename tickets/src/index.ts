@@ -1,6 +1,6 @@
 import mongoose from 'mongoose';
 import { app } from './app';
-import { natsWrrapper } from './nats-wrapper';
+import { natsWrapper } from './nats-wrapper';
 
 const startUp = async () => {
   if (!process.env.JWT_KEY) {
@@ -11,13 +11,13 @@ const startUp = async () => {
   }
 
   try {
-    await natsWrrapper.connect('ticketing', 'askdjna', 'http://nats-srv:4222');
-    natsWrrapper.client.on('close', () => {
+    await natsWrapper.connect('ticketing', 'askdjna', 'http://nats-srv:4222');
+    natsWrapper.client.on('close', () => {
       console.log('NATS connection closed!');
       process.exit();
     });
-    process.on('SIGINT', () => natsWrrapper.client.close());
-    process.on('SIGTERM', () => natsWrrapper.client.close());
+    process.on('SIGINT', () => natsWrapper.client.close());
+    process.on('SIGTERM', () => natsWrapper.client.close());
 
     await mongoose.connect(process.env.MONGO_URI);
     console.log('Tickets service connected to MongoDB!');
