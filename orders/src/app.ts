@@ -3,10 +3,10 @@ import 'express-async-errors';
 import { json } from 'body-parser';
 import cookieSession from 'cookie-session';
 import { errorHandler, NotFoundError, currentUser } from '@mrtickers/common';
-import { createTicketRouter } from './routes/new';
-import { showTicketRouter } from './routes/show';
-import { indexTicketRouter } from './routes';
-import { updateTicketRouter } from './routes/update';
+import { deleteOrderRouter } from './routes/delete';
+import { indexOrderRouter } from './routes';
+import { newOrderRouter } from './routes/new';
+import { showOrderRouter } from './routes/show';
 
 const app = express();
 
@@ -24,17 +24,17 @@ app.use(
 // Checks if the user is auth
 app.use(currentUser);
 
-// Define the tickets micro-service routes
-app.use(createTicketRouter);
-app.use(showTicketRouter);
-app.use(indexTicketRouter);
-app.use(updateTicketRouter);
+// Define the orders micro-service routes
+app.use(deleteOrderRouter);
+app.use(indexOrderRouter);
+app.use(newOrderRouter);
+app.use(showOrderRouter);
 
 app.all('*', async () => { 
   throw new NotFoundError(); 
 });
 
-// Define the tickets micro-service middlewares
+// Define the orders micro-service middlewares
 app.use(errorHandler);
 
 export { app };
