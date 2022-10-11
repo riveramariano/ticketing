@@ -1,5 +1,6 @@
 import mongoose from 'mongoose';
 import { OrderStatus } from '@mrtickers/common';
+import { TicketDoc } from './ticket';
 
 /* A type definition for the attributes that a order has. */
 interface OrderAttributes {
