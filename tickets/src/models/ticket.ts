@@ -42,7 +42,7 @@ const ticketSchema = new mongoose.Schema({
   }
 });
 
-/* Adding a new method to the User model called build. */
+/* Adding a new method to the Ticket model called build. */
 ticketSchema.statics.build = (attributes: TicketAttributes) => {
   return new Ticket(attributes);
 };
