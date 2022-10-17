@@ -1,4 +1,5 @@
 import mongoose from 'mongoose';
+import { updateIfCurrentPlugin } from 'mongoose-update-if-current';
 
 /* A type definition for the attributes that a ticket has. */
 interface TicketAttributes {
@@ -12,6 +13,7 @@ interface TicketDoc extends mongoose.Document {
   title: string;
   price: number;
   userId: string;
+  version: number;
 }
 
 /* Extending the mongoose.Model to add a new method called build. */
@@ -41,6 +43,10 @@ const ticketSchema = new mongoose.Schema({
     versionKey: false
   }
 });
+
+/* Adding version number to tickets */
+ticketSchema.set('versionKey', 'version');
+ticketSchema.plugin(updateIfCurrentPlugin);
 
 /* Adding a new method to the Ticket model called build. */
 ticketSchema.statics.build = (attributes: TicketAttributes) => {
