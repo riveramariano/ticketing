@@ -35,7 +35,7 @@ const startUp = async () => {
     process.on('SIGTERM', () => natsWrapper.client.close());
 
     new TicketCreatedListener(natsWrapper.client).listen();
-    new TicketCreatedListener(natsWrapper.client).listen();
+    new TicketUpdatedListener(natsWrapper.client).listen();
 
     await mongoose.connect(process.env.MONGO_URI);
     console.log('Orders service connected to MongoDB!');
