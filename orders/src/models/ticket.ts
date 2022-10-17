@@ -3,6 +3,7 @@ import { Order, OrderStatus } from './order';
 
 /* A type definition for the attributes that a ticket has. */
 interface TicketAttributes {
+  id: string;
   title: string;
   price: number;
 }
@@ -41,7 +42,11 @@ const ticketSchema = new mongoose.Schema({
 
 /* Adding a new method to the Ticket model called build. */
 ticketSchema.statics.build = (attributes: TicketAttributes) => {
-  return new Ticket(attributes);
+  return new Ticket({
+    _id: attributes.id,
+    title: attributes.title,
+    price: attributes.price
+  });
 };
 ticketSchema.methods.isReserved = async function() {
   const existingOrder = await Order.findOne({
