@@ -1,5 +1,6 @@
 import mongoose from 'mongoose';
 import { Order, OrderStatus } from './order';
+import { updateIfCurrentPlugin } from 'mongoose-update-if-current';
 
 /* A type definition for the attributes that a ticket has. */
 interface TicketAttributes {
@@ -12,12 +13,14 @@ interface TicketAttributes {
 export interface TicketDoc extends mongoose.Document {
   title: string;
   price: number;
+  version: number;
   isReserved(): Promise<boolean>;
 }
 
 /* Extending the mongoose.Model to add a new method called build. */
 interface TicketModel extends mongoose.Model<TicketDoc> {
   build(attributes: TicketAttributes): TicketDoc;
+  findByEvent(event: { id: string, version: number }): Promise<TicketDoc | null>;
 }
 
 const ticketSchema = new mongoose.Schema({
@@ -40,7 +43,17 @@ const ticketSchema = new mongoose.Schema({
   }
 });
 
+/* Adding version number to tickets */
+ticketSchema.set('versionKey', 'version');
+ticketSchema.plugin(updateIfCurrentPlugin);
+
 /* Adding a new method to the Ticket model called build. */
+ticketSchema.statics.findByEvent = (event: { id: string, version: number }) => {
+  return Ticket.findOne({
+    _id: event.id,
+    version: event.version - 1
+  });
+};
 ticketSchema.statics.build = (attributes: TicketAttributes) => {
   return new Ticket({
     _id: attributes.id,
