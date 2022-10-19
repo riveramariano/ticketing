@@ -1,6 +1,7 @@
 import mongoose from 'mongoose';
 import { OrderStatus } from '@mrtickers/common';
 import { TicketDoc } from './ticket';
+import { updateIfCurrentPlugin } from 'mongoose-update-if-current';
 
 export { OrderStatus };
 
@@ -53,6 +54,10 @@ const orderSchema = new mongoose.Schema({
     versionKey: false
   }
 });
+
+/* Adding version number to tickets */
+orderSchema.set('versionKey', 'version');
+orderSchema.plugin(updateIfCurrentPlugin);
 
 /* Adding a new method to the Order model called build. */
 orderSchema.statics.build = (attributes: OrderAttributes) => {
