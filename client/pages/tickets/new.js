@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import Router from 'next/router';
 import useRequest from '../../hooks/use-request';
 
 const NewTicket = () => {
@@ -10,7 +11,7 @@ const NewTicket = () => {
     body: {
       title, price
     },
-    onSuccess: (ticket) => console.log(ticket)
+    onSuccess: () => Router.push('/')
   });
 
   const onSubmit = (event) => {
@@ -39,7 +40,7 @@ const NewTicket = () => {
             onChange={(e) => setTitle(e.target.value)} 
           />
         </div>
-        <div className="form-group">
+        <div className="form-group mb-3">
           <label>Price</label>
           <input
             className="form-control"
@@ -49,7 +50,7 @@ const NewTicket = () => {
           />
         </div>
         {errors}
-        <button className="btn btn-primary mt-3">Submit</button>
+        <button className="btn btn-primary">Submit</button>
       </form>
     </div>
   );
