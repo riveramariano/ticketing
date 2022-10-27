@@ -3,13 +3,13 @@ import { OrderCreatedListener } from './events/listeners/order-created-listener'
 
 const startUp = async () => {
   if (!process.env.NATS_CLUSTER_ID) {
-    throw new Error('NATS_CLUSTER_ID must be defined');
+    throw new Error('Expiration NATS_CLUSTER_ID must be defined');
   }
   if (!process.env.NATS_CLIENT_ID) {
-    throw new Error('NATS_CLIENT_ID must be defined');
+    throw new Error('Expiration NATS_CLIENT_ID must be defined');
   }
   if (!process.env.NATS_URL) {
-    throw new Error('NATS_URL must be defined');
+    throw new Error('Expiration NATS_URL must be defined');
   }
 
   try {
@@ -19,7 +19,7 @@ const startUp = async () => {
       process.env.NATS_URL
     );
     natsWrapper.client.on('close', () => {
-      console.log('NATS connection closed!');
+      console.log('Expiration NATS connection closed!');
       process.exit();
     });
     process.on('SIGINT', () => natsWrapper.client.close());
