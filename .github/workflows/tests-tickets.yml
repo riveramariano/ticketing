@@ -2,7 +2,9 @@ name: tests-tickets
 
 # What's the action trigger
 on:
-  pull_request
+  pull_request:
+    paths:
+      - 'tickets/**'
   
 # Actions we want to do when a PR is created, re-open or updated
 jobs:
